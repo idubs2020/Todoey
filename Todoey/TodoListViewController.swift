@@ -11,10 +11,15 @@ import UIKit
 class TodoListViewController: UITableViewController {
     
     var itemArray = ["Find Mike", "Buy Eggos", "Destroy Demogorgon"]
-
+    
+    let defaults = UserDefaults.standard
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        if let items = defaults.array(forKey: "TodoListArray") as? [String] {
+            itemArray = items
+        }
     
     }
     // menambahkan cell Data Mark - Tableview Datasource Methods
@@ -63,7 +68,12 @@ class TodoListViewController: UITableViewController {
            
             // menambah kan data di itemArray
             
-            self.itemArray.append(textField!)
+            self.itemArray.append(textField.text!)
+           
+            //menyimpan di aplist file
+            
+            self.defaults.set(self.itemArray, forKey: "TodoListArray")
+            
             self.tableView.reloadData()
         }
         
